@@ -1,0 +1,33 @@
+
+CREATE DATABASE EmpresaVendas;
+
+USE EmpresaVendas;
+
+CREATE TABLE Vendas (
+    ID INT PRIMARY KEY AUTO_INCREMENT,
+    Produto VARCHAR(50),
+    Quantidade INT,
+    DataVenda DATE
+);
+
+INSERT INTO Vendas (Produto, Quantidade, DataVenda) VALUES
+('Produto A', 10, '2024-04-18'),
+('Produto B', 15, '2024-04-18'),
+('Produto A', 5, '2024-04-17'),
+('Produto C', 20, '2024-04-17'),
+('Produto B', 8, '2024-04-16');
+
+
+DELIMITER //
+
+CREATE PROCEDURE RelatorioDiarioVendas(
+    IN data_relatorio DATE
+)
+BEGIN
+    SELECT Produto, SUM(Quantidade) AS TotalQuantidade
+    FROM Vendas
+    WHERE DataVenda = data_relatorio
+    GROUP BY Produto;
+END //
+
+DELIMITER ;
